@@ -89,8 +89,8 @@ episode_v2_router.post("/", episodes.createEpisode)
  *     produces:
  *       - application/json
  *     responses:
- *       200:
- *         description: Episode object
+ *       204:
+ *         description: No content
  */
 episode_v2_router.delete("/:id", episodes.removeEpisode)
 

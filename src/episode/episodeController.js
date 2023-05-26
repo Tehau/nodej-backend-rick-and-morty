@@ -1,20 +1,32 @@
 // const asyncHandler = require("express-async-handler");
-const Episode = require("./episodeModel");
+const db = require("./index");
+const Episode = db.episodes;
+const Op = db.Sequelize.Op;
 
 /***
  *
  * @param req
  * @param res
  */
-const findAll = (req, res) => {
-    Episode.findAll((err, data) => {
-        if (err)
+exports.findAll = (req, res) => {
+    // Episode.findAll((err, data) => {
+    //     if (err)
+    //         res.status(500).send({
+    //             message:
+    //                 err.message || "Some error occurred while retrieving tutorials."
+    //         });
+    //     else res.send(data);
+    // });
+    Episode.findAll()
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving tutorials."
+                    err.message || "Some error occurred while retrieving episodes."
             });
-        else res.send(data);
-    });
+        });
 };
 
 /***
@@ -23,16 +35,16 @@ const findAll = (req, res) => {
  * @param req
  * @param res
  */
-const findById = (req, res) => {
-    const id = req.params.id;
-    Episode.findById(id, (err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving Episodes."
-            });
-        else res.send(data);
-    });
+exports.findById = (req, res) => {
+    // const id = req.params.id;
+    // Episode.findById(id, (err, data) => {
+    //     if (err)
+    //         res.status(500).send({
+    //             message:
+    //                 err.message || "Some error occurred while retrieving Episodes."
+    //         });
+    //     else res.send(data);
+    // });
 };
 
 /***
@@ -40,39 +52,44 @@ const findById = (req, res) => {
  * @param req
  * @param res
  */
-const createEpisode = (req, res) => {
-    if (req.body.url) {
-        Episode.create(req.body.url, (err, data) => {
-            if (err)
-                res.status(500).send({
-                    message:
-                        err.message || "Some error occurred while creating Episodes."
-                });
-            else res.send(data);
-        });
-    } else {
-        res.status(400).send({
-            message:  "Some error occurred while creating Episodes."
-        });
-    }
+exports.createEpisode = (req, res) => {
+    // if (req.body.url) {
+    //     Episode.create(req.body.url, (err, data) => {
+    //         if (err)
+    //             res.status(500).send({
+    //                 message:
+    //                     err.message || "Some error occurred while creating Episodes."
+    //             });
+    //         else res.send(data);
+    //     });
+    // } else {
+    //     res.status(400).send({
+    //         message:  "Some error occurred while creating Episodes."
+    //     });
+    // }
 }
 
-const removeEpisode = (req, res) => {
-    const id = req.params.id;
-    Episode.remove(id, (err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving Episodes."
-            });
-        else res.send(data);
-    });
+/**
+ *
+ * @param req
+ * @param res
+ */
+exports.removeEpisode = (req, res) => {
+    // const id = req.params.id;
+    // Episode.remove(id, (err, data) => {
+    //     if (err)
+    //         res.status(500).send({
+    //             message:
+    //                 err.message || "Some error occurred while retrieving Episodes."
+    //         });
+    //     else res.send(data);
+    // });
 }
 
-module.exports = {
-    findAll,
-    findById,
-    createEpisode,
-    removeEpisode
-}
+// module.exports = {
+//     findAll,
+//     findById,
+//     createEpisode,
+//     removeEpisode
+// }
 

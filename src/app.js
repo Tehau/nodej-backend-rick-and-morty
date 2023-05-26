@@ -17,6 +17,15 @@ app.use(
         extended: true,
     })
 )
+const db = require("./episode/index");
+db.sequelize.sync()
+    .then(() => {
+        console.log("Synced db.");
+    })
+    .catch((err) => {
+        console.log("Failed to sync db: " + err.message);
+    });
+
 
 // simple route
 /**
