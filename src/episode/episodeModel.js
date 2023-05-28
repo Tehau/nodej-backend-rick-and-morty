@@ -1,103 +1,34 @@
-// const {pool} = require("../config/default");
-//
-// // constructor
-// const Episode = function (episode) {
-//     this.id = episode.id;
-//     this.url = episode.url;
-// };
-//
-// /***
-//  *
-//  * @param result
-//  */
-// Episode.findAll = (result) => {
-//     let query = 'SELECT * FROM episodes';
-//     pool.query(query, (error, res) => {
-//         if (error) {
-//             console.log("error: ", error);
-//             result(null, error);
-//             return;
-//         }
-//
-//         console.log("character: ", res);
-//         result(null, res);
-//     });
-//
-// };
-//
-// /***
-//  *
-//  * @param id
-//  * @param result
-//  */
-// Episode.findById = (id, result) => {
-//     const query = "SELECT * FROM episodes WHERE id = $1";
-//     const params = [id]
-//     pool.query(query, params, (err, res) => {
-//         if (typeof err !== 'undefined' && err !== null){
-//             console.log("error: ", err);
-//             result(err, null);
-//             return;
-//         }
-//
-//         if (res.rowCount) {
-//             console.log("found episodes: ", res[0]);
-//             result(null, res.rows[0]);
-//             return;
-//         }
-//
-//         // not found Character with the id
-//         result({kind: "not_found"}, null);
-//     });
-// };
-//
-// /***
-//  *
-//  * @param url
-//  * @param result
-//  */
-// Episode.create = (url, result) => {
-//     let query = 'INSERT INTO episodes (url) VALUES ($1) RETURNING *'
-//     pool.query(query, [url], (error, res) => {
-//         if (error) {
-//             console.log("error: ", error);
-//             result(error, null);
-//             return;
-//         }
-//         // response.status(201).send(`Episode added with ID: ${results.rows[0].id}`)
-//
-//         console.log("character: ", res);
-//         result(null, res);
-//     });
-// }
-//
-// Episode.remove = (id, result) => {
-//     let query = "DELETE FROM episodes WHERE id = $1"
-//     pool.query(query, [id], (error, res) => {
-//         if (error) {
-//             console.log("error: ", error);
-//             result(null, error);
-//             return;
-//         }
-//
-//         if (res.affectedRows == 0) {
-//             // not found character with the id
-//             result({ kind: "not_found" }, null);
-//             return;
-//         }
-//
-//         console.log("deleted character with id: ", id);
-//         result(null, res);
-//     });
-// }
-//
-// module.exports = Episode;
+const {Model} = require("sequelize");
+module.exports = (sequelize, DataTypes) => {
+    class Episode extends Model {
+        /**
+         * Helper method for defining associations.
+         * This method is not a part of Sequelize lifecycle.
+         * The `models/index` file will call this method automatically.
+         */
+        static associate(db) {
+            // belongsToMany is for the M-M association to query related Characters instances
+            this.belongsToMany(db.characters, {
+                selfGranted: DataTypes.BOOLEAN,
+                through: "character_episode",
+                foreignKey: "episode_id",
+                timestamps: false
+            });
 
-
-module.exports = (sequelize, Sequelize) => {
-    return sequelize.define("episode", {
-        url: {
-            type: Sequelize.STRING
         }
-    });
+    }
+
+    Episode.init(
+        {
+            url: {
+                type: DataTypes.STRING
+            }
+        },
+        {
+            sequelize,
+            modelName: "episodes",
+            timestamps: false
+        }
+    )
+    return Episode;
 };

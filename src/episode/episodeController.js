@@ -1,7 +1,5 @@
-// const asyncHandler = require("express-async-handler");
-const db = require("./index");
+const db = require("../config/db.config");
 const Episode = db.episodes;
-const Op = db.Sequelize.Op;
 
 /***
  *
@@ -9,14 +7,6 @@ const Op = db.Sequelize.Op;
  * @param res
  */
 exports.findAll = (req, res) => {
-    // Episode.findAll((err, data) => {
-    //     if (err)
-    //         res.status(500).send({
-    //             message:
-    //                 err.message || "Some error occurred while retrieving tutorials."
-    //         });
-    //     else res.send(data);
-    // });
     Episode.findAll()
         .then(data => {
             res.send(data);
@@ -31,20 +21,21 @@ exports.findAll = (req, res) => {
 
 /***
  *
- * @param id
  * @param req
  * @param res
  */
 exports.findById = (req, res) => {
-    // const id = req.params.id;
-    // Episode.findById(id, (err, data) => {
-    //     if (err)
-    //         res.status(500).send({
-    //             message:
-    //                 err.message || "Some error occurred while retrieving Episodes."
-    //         });
-    //     else res.send(data);
-    // });
+    const id = req.params.id;
+
+    Episode.findByPk(id)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Error retrieving Tutorial with id=" + id
+            });
+        });
 };
 
 /***
@@ -53,20 +44,30 @@ exports.findById = (req, res) => {
  * @param res
  */
 exports.createEpisode = (req, res) => {
-    // if (req.body.url) {
-    //     Episode.create(req.body.url, (err, data) => {
-    //         if (err)
-    //             res.status(500).send({
-    //                 message:
-    //                     err.message || "Some error occurred while creating Episodes."
-    //             });
-    //         else res.send(data);
-    //     });
-    // } else {
-    //     res.status(400).send({
-    //         message:  "Some error occurred while creating Episodes."
-    //     });
-    // }
+    if (!req.body.url) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+        return;
+    }
+
+    // Create a Episode
+    const episode = {
+        url: req.body.url
+    };
+
+    // Save Episode in the database
+    Episode.create(episode)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    "Some error occurred while creating the Episode." || err.message
+            });
+        });
+
 }
 
 /**
@@ -75,21 +76,25 @@ exports.createEpisode = (req, res) => {
  * @param res
  */
 exports.removeEpisode = (req, res) => {
-    // const id = req.params.id;
-    // Episode.remove(id, (err, data) => {
-    //     if (err)
-    //         res.status(500).send({
-    //             message:
-    //                 err.message || "Some error occurred while retrieving Episodes."
-    //         });
-    //     else res.send(data);
-    // });
+    const id = req.params.id;
+
+    Episode.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num === 1) {
+                res.send({
+                    message: "Episode was deleted successfully!"
+                });
+            } else {
+                res.send({
+                    message: `Cannot delete Episode with id=${id}. Maybe Episode was not found!`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Episode with id=" + id || err.message
+            });
+        });
 }
-
-// module.exports = {
-//     findAll,
-//     findById,
-//     createEpisode,
-//     removeEpisode
-// }
-

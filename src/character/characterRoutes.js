@@ -49,6 +49,81 @@ character_v2_router.get("/", characters.findAll)
  */
 character_v2_router.get("/:id", characters.findById)
 
+
+/**
+ * @swagger
+ * /api/v2/characters:
+ *   post:
+ *     tags:
+ *       - "Characters"
+ *     summary: "Create an character."
+ *     description: Create a new Character.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Character name.
+ *                 example: "Rick Sanchez"
+ *               status:
+ *                 type: string
+ *                 description: Character status.
+ *                 example: "Alive"
+ *               species:
+ *                 type: string
+ *                 description: Character specie.
+ *                 example: "Human"
+ *               type:
+ *                 type: string
+ *                 description: Character specie.
+ *                 example: ""
+ *               gender:
+ *                 type: string
+ *                 description: Character gender.
+ *                 example: "Male"
+ *               image:
+ *                 type: string
+ *                 description: Character image.
+ *                 example: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+ *               url:
+ *                 type: string
+ *                 description: Character url.
+ *                 example: "https://rickandmortyapi.com/api/character/1"
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       201:
+ *         description: Episode object
+ */
+character_v2_router.post("/", characters.createCharacter)
+
+
+/**
+ * @swagger
+ * /api/v2/characters/{id}/episodes:
+ *   post:
+ *     tags:
+ *       - "Characters"
+ *     summary: "Add episodes on character."
+ *     description: Create a new Character.
+ *     parameters:
+ *      - name: "id"
+ *        in: "path"
+ *        description: "ID of character to return"
+ *        required: true
+ *        type: "integer"
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       201:
+ *         description: Episode object
+ */
+character_v2_router.post("/:id/episodes", characters.addEpisodeOnCharacter)
+
 character_v1_router
     .get('/', db.getCharacters)
     .get('/:id', db.getUserById)

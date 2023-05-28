@@ -17,7 +17,8 @@ app.use(
         extended: true,
     })
 )
-const db = require("./episode/index");
+
+const db = require("./config/db.config");
 db.sequelize.sync()
     .then(() => {
         console.log("Synced db.");
