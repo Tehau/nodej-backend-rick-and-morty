@@ -1,6 +1,8 @@
 const express = require("express");
 const characterRoutes = require('./character/characterRoutes');
 const episodeRoutes = require('./episode/episodeRoutes');
+const locationRoutes = require('./location/locationRoutes');
+const originRoutes = require('./origin/originRoutes');
 
 const cors = require('cors');
 const morgan = require('morgan');
@@ -50,8 +52,10 @@ app.get("/", (req, res) => {
 
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Add Character Routes
+// Add Routes
 app.use(characterRoutes); // Requests proc
 app.use(episodeRoutes); // Requests proc
+app.use(locationRoutes); // Requests proc
+app.use(originRoutes); // Requests proc
 
 module.exports = app;

@@ -1,6 +1,8 @@
 const db = require("../config/db.config");
 const Character = db.characters;
 const Episode = db.episodes;
+const Location = db.locations;
+const Origin = db.origins;
 
 /**
  *
@@ -10,7 +12,14 @@ const Episode = db.episodes;
 exports.findAll = (req, res) => {
     Character.findAll({
         include: [{
-            model: Episode
+            model: Episode,
+            attributes: ['url']
+        }, {
+            model: Location,
+            attributes: ['name', 'url']
+        }, {
+            model: Origin,
+            attributes: ['name', 'url']
         }]
     }).then(data => {
         res.status(200).send(data);
