@@ -1,5 +1,6 @@
 const db = require("../config/db.config");
 const Location = db.locations;
+const Character = db.characters;
 
 /***
  *
@@ -7,7 +8,11 @@ const Location = db.locations;
  * @param res
  */
 exports.findAll = (req, res) => {
-    Location.findAll()
+    Location.findAll({
+        include: [{
+            model: Character,
+            attributes: ['id', 'name']
+        }]})
         .then(data => {
             res.send(data);
         })
@@ -52,12 +57,12 @@ exports.createLocation = (req, res) => {
     }
 
     // Create a Location
-    const Location = {
+    const location = {
         url: req.body.url
     };
 
     // Save Location in the database
-    Location.create(Location)
+    Location.create(location)
         .then(data => {
             res.send(data);
         })

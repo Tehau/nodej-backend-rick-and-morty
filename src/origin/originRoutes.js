@@ -63,7 +63,7 @@ origin_v2_router.get("/:id", origins.findById)
  *               url:
  *                 type: string
  *                 description: The URL Origin.
- *                 example: "https://rickandmortyapi.com/api/Origin/1"
+ *                 example: "https://rickandmortyapi.com/api/location/1"
  *     produces:
  *       - application/json
  *     responses:

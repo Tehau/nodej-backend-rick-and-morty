@@ -1,5 +1,6 @@
 const db = require("../config/db.config");
 const Episode = db.episodes;
+const Character = db.characters;
 
 /***
  *
@@ -7,7 +8,12 @@ const Episode = db.episodes;
  * @param res
  */
 exports.findAll = (req, res) => {
-    Episode.findAll()
+    Episode.findAll({
+        include: [{
+            model: Character,
+            through: { attributes: [] },
+            attributes: ['name']
+        }]})
         .then(data => {
             res.send(data);
         })

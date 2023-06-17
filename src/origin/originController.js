@@ -1,5 +1,6 @@
 const db = require("../config/db.config");
 const Origin = db.origins;
+const Character = db.characters;
 
 /***
  *
@@ -7,7 +8,11 @@ const Origin = db.origins;
  * @param res
  */
 exports.findAll = (req, res) => {
-    Origin.findAll()
+    Origin.findAll({
+        include: [{
+            model: Character,
+            attributes: ['id', 'name']
+        }]})
         .then(data => {
             res.send(data);
         })
@@ -52,12 +57,12 @@ exports.createOrigin = (req, res) => {
     }
 
     // Create a Origin
-    const Origin = {
+    const origin = {
         url: req.body.url
     };
 
     // Save Origin in the database
-    Origin.create(Origin)
+    Origin.create(origin)
         .then(data => {
             res.send(data);
         })

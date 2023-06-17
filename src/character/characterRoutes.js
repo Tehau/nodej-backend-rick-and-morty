@@ -116,6 +116,11 @@ character_v2_router.post("/", characters.createCharacter)
  *        description: "ID of character to return"
  *        required: true
  *        type: "integer"
+ *      - name: "episodes"
+ *        in: "query"
+ *        description: "ID of all episodes to add in character"
+ *        required: true
+ *        type: "list"
  *     produces:
  *       - application/json
  *     responses:

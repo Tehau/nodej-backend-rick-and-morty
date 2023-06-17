@@ -13,6 +13,7 @@ exports.findAll = (req, res) => {
     Character.findAll({
         include: [{
             model: Episode,
+            through: { attributes: [] },
             attributes: ['url']
         }, {
             model: Location,
@@ -43,6 +44,7 @@ exports.findById = (req, res) => {
         include: [{
             model: Episode,
             as: 'episodes',
+            through: { attributes: [] },
             attributes: ['id', 'url']
         }]
     })
@@ -95,15 +97,17 @@ exports.createCharacter = (req, res) => {
  */
 exports.addEpisodeOnCharacter = async (req, res) => {
     const id = req.params.id;
-    const episodeId = 1
+    const episodes = req.query.episodes;
     try {
-        console.log("Body Params: ", req.body);
         let character = await Character.findByPk(id)
+        let episode_id = episodes.split(",")
+        for (let i of episode_id) {
+            console.log("episodes Params: ", episode_id[i]);
+            let episode = await Episode.findByPk(parseInt(episode_id[i]));
 
-        let episode = await Episode.findByPk(episodeId);
-
-        //populate character_episode join table
-        await character.addEpisode(episode);
+            //populate character_episode join table
+            await character.addEpisode(episode);
+        }
 
         let characterEpisode = await Character.findByPk(id, {
             include: [{
