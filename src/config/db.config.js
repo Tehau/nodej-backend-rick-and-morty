@@ -36,13 +36,4 @@ db.locations.associate(db)
 // db.characters.hasOne(db.locations)
 // db.characters.hasOne(db.origins)
 
-// db.characters.belongsTo(db.locations, {
-//     as: "location",
-//     foreignKey: "location_id"
-// });
-// db.characters.belongsTo(db.locations, {
-//     as: "origin",
-//     foreignKey: "origin_id"
-// });
-
 module.exports = db;

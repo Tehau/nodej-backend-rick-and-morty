@@ -34,10 +34,10 @@ db.sequelize.sync()
 /**
  * @Swagger
  *
- * /:
+ * /api/v2:
  *   get:
  *     tags:
- *       - "Iaorana World!"
+ *       - "World"
  *     summary: "Iaorana World!"
  *     description: Iaorana World!.
  *     produces:
@@ -46,8 +46,8 @@ db.sequelize.sync()
  *       200:
  *         description: String
  */
-app.get("/", (req, res) => {
-    res.status(200).json("Iaoarana world!!");
+app.get("/api/v2", (req, res) => {
+    res.status(200).json("ʻIa orana World!!");
 });
 
 app.use('/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

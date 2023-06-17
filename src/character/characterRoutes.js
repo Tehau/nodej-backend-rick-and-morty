@@ -109,7 +109,7 @@ character_v2_router.post("/", characters.createCharacter)
  *     tags:
  *       - "Characters"
  *     summary: "Add episodes on character."
- *     description: Create a new Character.
+ *     description: Add episodes on character.
  *     parameters:
  *      - name: "id"
  *        in: "path"
@@ -128,6 +128,33 @@ character_v2_router.post("/", characters.createCharacter)
  *         description: Episode object
  */
 character_v2_router.post("/:id/episodes", characters.addEpisodeOnCharacter)
+
+/**
+ * @swagger
+ * /api/v2/characters/{id}/locations:
+ *   post:
+ *     tags:
+ *       - "Characters"
+ *     summary: "Add locations on character."
+ *     description: Add locations on character.
+ *     parameters:
+ *      - name: "id"
+ *        in: "path"
+ *        description: "ID of character to return"
+ *        required: true
+ *        type: "integer"
+ *      - name: "location"
+ *        in: "query"
+ *        description: "ID of a location to add on a character"
+ *        required: true
+ *        type: "integer"
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       201:
+ *         description: Episode object
+ */
+character_v2_router.post("/:id/locations", characters.addLocationOnCharacter)
 
 character_v1_router
     .get('/', db.getCharacters)

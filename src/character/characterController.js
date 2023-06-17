@@ -141,3 +141,35 @@ exports.addEpisodeOnCharacter = async (req, res) => {
         res.status(500).send(error)
     }
 }
+
+/**
+ *
+ * @param req
+ * @param res
+ */
+exports.addLocationOnCharacter = async (req, res) => {
+    const _id = req.params.id;
+    const loc_id = req.query.location;
+    try {
+        let location = await Location.findByPk(loc_id)
+        if (location == null) {
+            console.error("Location with ID %d not found.", loc_id);
+            res.status(204).send("Location with ID %d not found.", loc_id)
+        }
+
+        Character.update({
+            location_id: loc_id
+        }, { where: {
+            id: _id
+        }}).then((rows) => {
+            if (rows.length === 1) {
+                res.status(200).send('Character updated.')
+            } else {
+                res.status(500).send('Cannot update Character with id=%d',id)
+            }
+        })
+    } catch (error) {
+        console.error("Adding Location on Character server error: ", error);
+        res.status(500).send(error)
+    }
+}
