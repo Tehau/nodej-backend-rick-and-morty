@@ -113,6 +113,33 @@ exports.createCharacter = (req, res) => {
  * @param req
  * @param res
  */
+exports.updateCharacter = (req, res) => {
+    const id = req.params.id;
+
+    Character.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num.length === 1) {
+                res.status(200).send({
+                    message: "Character was updated successfully."
+                });
+            } else {
+                res.status(500).send('Cannot update Character with id=%d. Maybe Tutorial was not found or req.body is empty!', id);
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+            message: "Some error occurred while updating the Character." || err.message
+            });
+        });
+}
+
+/**
+ *
+ * @param req
+ * @param res
+ */
 exports.addEpisodeOnCharacter = async (req, res) => {
     const id = req.params.id;
     const episodes = req.query.episodes;
@@ -156,7 +183,6 @@ exports.addLocationOnCharacter = async (req, res) => {
             console.error("Location with ID %d not found.", loc_id);
             res.status(204).send("Location with ID %d not found.", loc_id)
         }
-
         Character.update({
             location_id: loc_id
         }, { where: {

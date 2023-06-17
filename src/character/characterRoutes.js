@@ -101,6 +101,63 @@ character_v2_router.get("/:id", characters.findById)
  */
 character_v2_router.post("/", characters.createCharacter)
 
+/**
+ * @swagger
+ * /api/v2/characters/{id}:
+ *   put:
+ *     tags:
+ *       - "Characters"
+ *     summary: "Update an character."
+ *     description: Update a new Character.
+ *     parameters:
+ *      - name: "id"
+ *        in: "path"
+ *        description: "ID of character to return"
+ *        required: true
+ *        type: "integer"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Character name.
+ *                 example: "Rick Sanchez"
+ *               status:
+ *                 type: string
+ *                 description: Character status.
+ *                 example: "Alive"
+ *               species:
+ *                 type: string
+ *                 description: Character specie.
+ *                 example: "Human"
+ *               type:
+ *                 type: string
+ *                 description: Character specie.
+ *                 example: ""
+ *               gender:
+ *                 type: string
+ *                 description: Character gender.
+ *                 example: "Male"
+ *               image:
+ *                 type: string
+ *                 description: Character image.
+ *                 example: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+ *               url:
+ *                 type: string
+ *                 description: Character url.
+ *                 example: "https://rickandmortyapi.com/api/character/1"
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: message
+ */
+character_v2_router.put("/:id", characters.updateCharacter)
+
 
 /**
  * @swagger
