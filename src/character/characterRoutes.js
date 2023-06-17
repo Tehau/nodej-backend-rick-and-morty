@@ -213,6 +213,29 @@ character_v2_router.post("/:id/episodes", characters.addEpisodeOnCharacter)
  */
 character_v2_router.post("/:id/locations", characters.addLocationOnCharacter)
 
+
+/**
+ * @swagger
+ * /api/v2/characters/{id}:
+ *   delete:
+ *     tags:
+ *       - "Characters"
+ *     summary: "Delete a Character by his ID."
+ *     description: Delete a Character object by specifying its id.
+ *     parameters:
+ *      - name: "id"
+ *        in: "path"
+ *        description: "ID of Location to Delete"
+ *        required: true
+ *        type: "integer"
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       204:
+ *         description: No content
+ */
+character_v2_router.delete("/:id", characters.removeCharacter)
+
 character_v1_router
     .get('/', db.getCharacters)
     .get('/:id', db.getUserById)

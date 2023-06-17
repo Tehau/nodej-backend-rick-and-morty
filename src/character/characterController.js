@@ -125,7 +125,7 @@ exports.updateCharacter = (req, res) => {
                     message: "Character was updated successfully."
                 });
             } else {
-                res.status(500).send('Cannot update Character with id=%d. Maybe Tutorial was not found or req.body is empty!', id);
+                res.status(500).send('Cannot update Character with id=%d', id);
             }
         })
         .catch(err => {
@@ -198,4 +198,30 @@ exports.addLocationOnCharacter = async (req, res) => {
         console.error("Adding Location on Character server error: ", error);
         res.status(500).send(error)
     }
+}
+
+
+/**
+ *
+ * @param req
+ * @param res
+ */
+exports.removeCharacter = (req, res) => {
+    const id = req.params.id;
+
+    Character.destroy({
+        where: { id: id }
+    })
+        .then(num => {
+            if (num === 1) {
+                res.send("Character was deleted successfully!");
+            } else {
+                res.send("Cannot delete Character with id=%d",id);
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Episode with id=" + id || err.message
+            });
+        });
 }

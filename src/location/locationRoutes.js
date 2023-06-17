@@ -76,6 +76,44 @@ location_v2_router.get("/:id", locations.findById)
  */
 location_v2_router.post("/", locations.createLocation)
 
+
+/**
+ * @swagger
+ * /api/v2/locations/{id}:
+ *   put:
+ *     tags:
+ *       - "Locations"
+ *     summary: "Update a Location."
+ *     description: Update a Location.
+ *     parameters:
+ *      - name: "id"
+ *        in: "path"
+ *        description: "ID of Location to Delete"
+ *        required: true
+ *        type: "integer"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               url:
+ *                 type: string
+ *                 description: The URL Location.
+ *                 example: "https://rickandmortyapi.com/api/location/1"
+ *               name:
+ *                 type: string
+ *                 description: The name Location.
+ *                 example: "Earth"
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Location object
+ */
+location_v2_router.put("/:id", locations.updateLocation)
+
 /**
  * @swagger
  * /api/v2/locations/{id}:
@@ -83,7 +121,7 @@ location_v2_router.post("/", locations.createLocation)
  *     tags:
  *       - "Locations"
  *     summary: "Delete an Location by his ID."
- *     description: Delete a Location object by specifying its id. The response is Character object.
+ *     description: Delete a Location object by specifying its id.
  *     parameters:
  *      - name: "id"
  *        in: "path"

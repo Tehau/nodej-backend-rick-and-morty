@@ -75,11 +75,44 @@ episode_v2_router.post("/", episodes.createEpisode)
 /**
  * @swagger
  * /api/v2/episodes/{id}:
+ *   put:
+ *     tags:
+ *       - "Episodes"
+ *     summary: "Update an episode."
+ *     description: Update a new Episode.
+ *     parameters:
+ *      - name: "id"
+ *        in: "path"
+ *        description: "ID of Episode to Delete"
+ *        required: true
+ *        type: "integer"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               url:
+ *                 type: string
+ *                 description: The URL episode.
+ *                 example: "https://rickandmortyapi.com/api/episode/1"
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: message
+ */
+episode_v2_router.put("/:id", episodes.updateEpisode)
+
+/**
+ * @swagger
+ * /api/v2/episodes/{id}:
  *   delete:
  *     tags:
  *       - "Episodes"
  *     summary: "Delete an episode by his ID."
- *     description: Delete a Episode object by specifying its id. The response is Character object.
+ *     description: Delete a Episode object by specifying its id.
  *     parameters:
  *      - name: "id"
  *        in: "path"

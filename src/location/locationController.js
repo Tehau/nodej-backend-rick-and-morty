@@ -82,6 +82,33 @@ exports.createLocation = (req, res) => {
  * @param req
  * @param res
  */
+exports.updateLocation = (req, res) => {
+    const id = req.params.id;
+
+    Location.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num.length === 1) {
+                res.status(200).send({
+                    message: "Location was updated successfully."
+                });
+            } else {
+                res.status(500).send('Cannot update Location with id=%d', id);
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Some error occurred while updating the Location." || err.message
+            });
+        });
+}
+
+/**
+ *
+ * @param req
+ * @param res
+ */
 exports.removeLocation = (req, res) => {
     const id = req.params.id;
 

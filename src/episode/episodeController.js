@@ -81,6 +81,34 @@ exports.createEpisode = (req, res) => {
  * @param req
  * @param res
  */
+exports.updateEpisode = (req, res) => {
+    const id = req.params.id;
+
+    Episode.update(req.body, {
+        where: { id: id }
+    })
+        .then(num => {
+            if (num.length === 1) {
+                res.status(200).send({
+                    message: "Episode was updated successfully."
+                });
+            } else {
+                res.status(500).send('Cannot update Episode with id=%d', id);
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Some error occurred while updating the Episode." || err.message
+            });
+        });
+}
+
+
+/**
+ *
+ * @param req
+ * @param res
+ */
 exports.removeEpisode = (req, res) => {
     const id = req.params.id;
 
