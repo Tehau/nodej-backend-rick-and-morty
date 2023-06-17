@@ -25,15 +25,24 @@ db.sequelize = sequelize;
 db.episodes = require("../episode/episodeModel")(sequelize, Sequelize);
 db.characters = require("../character/characterModel")(sequelize, Sequelize);
 db.locations = require("../location/locationModel")(sequelize, Sequelize);
-db.origins = require("../origin/originModel")(sequelize, Sequelize);
+// db.origins = require("../origin/originModel")(sequelize, Sequelize);
 db.characters.associate(db)
 db.episodes.associate(db)
 db.locations.associate(db)
-db.origins.associate(db)
+// db.origins.associate(db)
 
 // hasOne association
 // TODO Finish One to Many association
-db.characters.hasOne(db.locations)
-db.characters.hasOne(db.origins)
+// db.characters.hasOne(db.locations)
+// db.characters.hasOne(db.origins)
+
+// db.characters.belongsTo(db.locations, {
+//     as: "location",
+//     foreignKey: "location_id"
+// });
+// db.characters.belongsTo(db.locations, {
+//     as: "origin",
+//     foreignKey: "origin_id"
+// });
 
 module.exports = db;

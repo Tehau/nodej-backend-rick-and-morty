@@ -63,7 +63,11 @@ location_v2_router.get("/:id", locations.findById)
  *               url:
  *                 type: string
  *                 description: The URL Location.
- *                 example: "https://rickandmortyapi.com/api/Location/1"
+ *                 example: "https://rickandmortyapi.com/api/location/1"
+ *               name:
+ *                 type: string
+ *                 description: The name Location.
+ *                 example: "Earth"
  *     produces:
  *       - application/json
  *     responses:

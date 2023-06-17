@@ -14,7 +14,14 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: "character_id",
                 timestamps: false
             });
-
+            this.belongsTo(db.locations, {
+                as: "location",
+                foreignKey: "location_id"
+            });
+            this.belongsTo(db.locations, {
+                as: "origin",
+                foreignKey: "origin_id"
+            });
         }
     }
 

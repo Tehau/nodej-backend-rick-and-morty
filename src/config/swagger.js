@@ -23,7 +23,7 @@ const options = {
     apis: ['./src/character/*Routes.js',
         './src/episode/*Routes.js',
         './src/location/*Routes.js',
-        './src/origin/*Routes.js',
+        // './src/origin/*Routes.js',
         './src/app.js'],
 };
 

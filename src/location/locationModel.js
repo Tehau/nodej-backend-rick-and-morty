@@ -7,10 +7,15 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(db) {
-            // belongsToMany is for the M-M association to query related Characters instances
+            // hasMany is for the N-M association to query related Characters instances
             this.hasMany(db.characters, {
-                as: "location",
+                as: "residents",
                 foreignKey: "location_id",
+                timestamps: false
+            });
+            this.hasMany(db.characters, {
+                as: "origin",
+                foreignKey: "origin_id",
                 timestamps: false
             });
 

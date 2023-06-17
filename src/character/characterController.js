@@ -2,7 +2,6 @@ const db = require("../config/db.config");
 const Character = db.characters;
 const Episode = db.episodes;
 const Location = db.locations;
-const Origin = db.origins;
 
 /**
  *
@@ -11,17 +10,21 @@ const Origin = db.origins;
  */
 exports.findAll = (req, res) => {
     Character.findAll({
+        attributes: ['id', 'name', 'status', 'species', 'type', 'gender', 'image', 'url'],
         include: [{
             model: Episode,
             through: { attributes: [] },
-            attributes: ['url']
+            attributes: ['id', 'url']
         }, {
             model: Location,
-            attributes: ['name', 'url']
+            as: 'location',
+            attributes: ['id', 'name', 'url']
         }, {
-            model: Origin,
-            attributes: ['name', 'url']
-        }]
+            model: Location,
+            as: 'origin',
+            attributes: ['id', 'name', 'url']
+        }],
+        order: [[ 'id', 'ASC' ]]
     }).then(data => {
         res.status(200).send(data);
     })
@@ -41,11 +44,20 @@ exports.findById = (req, res) => {
     const id = req.params.id;
 
     Character.findByPk(id, {
+        attributes: ['id', 'name', 'status', 'species', 'type', 'gender', 'image', 'url'],
         include: [{
             model: Episode,
             as: 'episodes',
             through: { attributes: [] },
             attributes: ['id', 'url']
+        }, {
+            model: Location,
+            as: 'location',
+            attributes: ['id', 'name', 'url']
+        }, {
+            model: Location,
+            as: 'origin',
+            attributes: ['id', 'name', 'url']
         }]
     })
         .then(data => {
@@ -73,21 +85,27 @@ exports.createCharacter = (req, res) => {
 
     // Create a Character
     const character = {
-        name: req.body.name
+        name: req.body.name,
+        status: req.body.status,
+        species: req.body.species,
+        type: req.body.type,
+        gender: req.body.gender,
+        image: req.body.image,
+        url: req.body.url
     };
 
     // Save Character in the database
     Character.create(character)
         .then(data => {
+            delete data.dataValues["location_id"];
+            delete data.dataValues["origin_id"];
             res.status(201).send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message:
-                    "Some error occurred while creating the Character." || err.message
+                message: "Some error occurred while creating the Character." || err.message
             });
         });
-
 }
 
 /**
@@ -101,7 +119,7 @@ exports.addEpisodeOnCharacter = async (req, res) => {
     try {
         let character = await Character.findByPk(id)
         let episode_id = episodes.split(",")
-        for (let i of episode_id) {
+        for (let i in episode_id) {
             console.log("episodes Params: ", episode_id[i]);
             let episode = await Episode.findByPk(parseInt(episode_id[i]));
 

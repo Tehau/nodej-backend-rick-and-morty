@@ -1,6 +1,5 @@
 const db = require("../config/db.config");
 const Location = db.locations;
-const Character = db.characters;
 
 /***
  *
@@ -8,11 +7,7 @@ const Character = db.characters;
  * @param res
  */
 exports.findAll = (req, res) => {
-    Location.findAll({
-        include: [{
-            model: Character,
-            attributes: ['id', 'name']
-        }]})
+    Location.findAll()
         .then(data => {
             res.send(data);
         })
@@ -51,13 +46,20 @@ exports.findById = (req, res) => {
 exports.createLocation = (req, res) => {
     if (!req.body.url) {
         res.status(400).send({
-            message: "Content can not be empty!"
+            message: "Content URL cannot be empty!"
+        });
+        return;
+    }
+    if (!req.body.name) {
+        res.status(400).send({
+            message: "Content NAME cannot be empty!"
         });
         return;
     }
 
     // Create a Location
     const location = {
+        name: req.body.name,
         url: req.body.url
     };
 
