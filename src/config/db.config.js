@@ -20,7 +20,6 @@ const sequelize = new Sequelize(
 
 const db = {};
 
-db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.episodes = require("../episode/episodeModel")(sequelize, Sequelize);
 db.characters = require("../character/characterModel")(sequelize, Sequelize);

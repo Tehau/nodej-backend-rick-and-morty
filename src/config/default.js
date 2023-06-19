@@ -7,9 +7,9 @@
 //     DB_NAME: process.env.DB_NAME || '',
 // };
 module.exports = {
-    HOST: "localhost",
-    USER: "root",
-    PASSWORD: "root",
+    HOST: process.env.DATASOURCE_URL,
+    USER: process.env.DATASOURCE_USERNAME,
+    PASSWORD: process.env.DATASOURCE_PASSWORD,
     DB: "test_db",
     dialect: "postgres",
     pool: {
